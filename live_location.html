@@ -31,13 +31,12 @@
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script>
     // Map initialization 
-    var map = L.map('map').setView([14.0860746, 100.608406], 6);
-
+    var map = L.map('map').setView([53.407657, -113.756587], 8);
+    
     //osm layer
-    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    });
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
     osm.addTo(map);
+
 
     if(!navigator.geolocation) {
         console.log("Your browser doesn't support geolocation!")
@@ -55,28 +54,49 @@
         var long = position.coords.longitude
         var accuracy = position.coords.accuracy
 
-        if(marker) {
+        if(53.40876< lat < 53.409489 && -113.762802 < long < -113.752873){
+            // if you are within the coordinates of the garden, then show the location
+            if(marker) {
             map.removeLayer(marker)
-        }
-
-        if(circle) {
+            }
+            if(circle) {
             map.removeLayer(circle)
-        }
+            }   
 
-        marker = L.marker([lat, long])
-        circle = L.circle([lat, long], {radius: accuracy})
+            marker = L.marker([lat, long])
+            circle = L.circle([lat, long], {radius: accuracy})
 
-        var featureGroup = L.featureGroup([marker, circle]).addTo(map)
+            var featureGroup = L.featureGroup([marker, circle], {bearing:180}).addTo(map)
 
-        map.fitBounds(featureGroup.getBounds())
+            map.fitBounds(featureGroup.getBounds())
 
-        console.log("Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy)
+         } else{
+            // if you are not at the garden, simply show the garden map
+            lat = 53.407657
+            long = -113.756587
+            if(marker) {
+            map.removeLayer(marker)
+            }
+            if(circle) {
+            map.removeLayer(circle)
+            }   
+
+            marker = L.marker([lat, long])
+            circle = L.circle([lat, long], {radius: accuracy})
+
+            var featureGroup = L.featureGroup([marker, circle]).addTo(map)
+
+            map.fitBounds(featureGroup.getBounds())
+            
+         }
+
+        // console.log("Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy)
     }
 
     var imageUrl = '/images/map_big.jpg';
     var errorOverlayUrl = 'https://cdn-icons-png.flaticon.com/512/110/110686.png';
     var altText = 'Image of Newark, N.J. in 1922. Source: The University of Texas at Austin, UT Libraries Map Collection.';
-    var latLngBounds = L.latLngBounds([[53.40926, -113.75604], [53.40884, -113.75415]]);
+    var latLngBounds = L.latLngBounds([[53.40876, -113.762802], [53.409489,-113.752873]]);
     var imageOverlay = L.imageOverlay(imageUrl, latLngBounds, {
         opacity: 0.8,
         errorOverlayUrl: errorOverlayUrl,
