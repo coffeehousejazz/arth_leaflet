@@ -34,8 +34,7 @@
     var map = L.map('map').setView([53.407657, -113.756587], 8);
 
     //osm layer
-    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        rotationAngle: 90});
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {});
     osm.addTo(map);
 
 
@@ -85,12 +84,12 @@
             marker = L.marker([lat, long])
             circle = L.circle([lat, long], {radius: accuracy})
 
-            var featureGroup = L.featureGroup([marker, circle]).addTo(map)
+            var featureGroup = L.featureGroup([marker]).addTo(map)
 
             map.fitBounds(featureGroup.getBounds())
             // Rotate the tile layer container element using CSS
-            var tileLayerContainer = document.getElementsByClassName('leaflet-tile-container')[0];
-            tileLayerContainer.style.transform = 'rotate(-30deg)';
+            // var tileLayerContainer = document.getElementsByClassName('leaflet-tile-container')[0];
+            // tileLayerContainer.style.transform = 'rotate(-20deg)';
             
          }
 
@@ -100,7 +99,12 @@
     var imageUrl = '/images/map_big.jpg';
     var errorOverlayUrl = 'https://cdn-icons-png.flaticon.com/512/110/110686.png';
     var altText = 'Image of Newark, N.J. in 1922. Source: The University of Texas at Austin, UT Libraries Map Collection.';
-    var latLngBounds = L.latLngBounds([[53.40926, -113.75604], [53.40884, -113.75415]]);
+    var latLngBounds = L.latLngBounds([
+        [53.407628, -113.760283], // south west
+        [53.406200, -113.757899], // south east
+        [53.408385, -113.75], // north east
+        [53.409434, -113.756366], // north west
+    ]);
     var imageOverlay = L.imageOverlay(imageUrl, latLngBounds, {
         opacity: 0.8,
         errorOverlayUrl: errorOverlayUrl,

@@ -87,18 +87,34 @@
             var featureGroup = L.featureGroup([marker, circle]).addTo(map)
 
             map.fitBounds(featureGroup.getBounds())
+
+            // Create a marker at a specific location
+             var marker = L.marker([53.407683, -113.757911]).addTo(map);
+
+            // Attach a popup to the marker
+            var popupContent = "Click me!";
+            marker.bindPopup(popupContent);
+
+            // Add a click event listener to the marker
+            marker.on('click', function() {
+            // Display a message when the marker is clicked
+            alert("You clicked the marker!");
+            });
             
          }
 
         // console.log("Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy)
     }
 
-    var imageUrl = '/images/map_big.jpg';
+
+    var imageUrl = '/images/rotate.png';
     var errorOverlayUrl = 'https://cdn-icons-png.flaticon.com/512/110/110686.png';
     var altText = 'Image of Newark, N.J. in 1922. Source: The University of Texas at Austin, UT Libraries Map Collection.';
-    var latLngBounds = L.latLngBounds([[53.40876, -113.762802], [53.409489,-113.752873]]);
+    var latLngBounds = L.latLngBounds([
+        [53.406012, -113.760125], 
+        [53.409693, -113.753870]]);
     var imageOverlay = L.imageOverlay(imageUrl, latLngBounds, {
-        opacity: 0.8,
+        opacity: 1,
         errorOverlayUrl: errorOverlayUrl,
         alt: altText,
         interactive: true
