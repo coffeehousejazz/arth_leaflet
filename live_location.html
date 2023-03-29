@@ -37,7 +37,6 @@
     var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
     osm.addTo(map);
 
-
     if(!navigator.geolocation) {
         console.log("Your browser doesn't support geolocation!")
     } else {
@@ -55,7 +54,7 @@
         var accuracy = position.coords.accuracy
 
         if(53.40876< lat < 53.409489 && -113.762802 < long < -113.752873){
-            // if you are within the coordinates of the garden, then show the location
+            // If you are within the coordinates of the garden, then show the location
             if(marker) {
             map.removeLayer(marker)
             }
@@ -69,6 +68,19 @@
             var featureGroup = L.featureGroup([marker, circle], {bearing:180}).addTo(map)
 
             map.fitBounds(featureGroup.getBounds())
+
+            // Create a marker at a specific location
+            var marker = L.marker([53.407683, -113.757911]).addTo(map);
+
+            // Attach a popup to the marker
+            var popupContent = "Click me!";
+            marker.bindPopup(popupContent);
+
+            // Add a click event listener to the marker
+            marker.on('click', function() {
+            // Display a message when the marker is clicked
+            alert("You clicked the marker!");
+            });
 
          } else{
             // if you are not at the garden, simply show the garden map
@@ -87,26 +99,13 @@
             var featureGroup = L.featureGroup([marker, circle]).addTo(map)
 
             map.fitBounds(featureGroup.getBounds())
-
-            // Create a marker at a specific location
-             var marker = L.marker([53.407683, -113.757911]).addTo(map);
-
-            // Attach a popup to the marker
-            var popupContent = "Click me!";
-            marker.bindPopup(popupContent);
-
-            // Add a click event listener to the marker
-            marker.on('click', function() {
-            // Display a message when the marker is clicked
-            alert("You clicked the marker!");
-            });
             
          }
 
         // console.log("Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy)
     }
 
-
+    // Add image
     var imageUrl = '/images/rotate.png';
     var errorOverlayUrl = 'https://cdn-icons-png.flaticon.com/512/110/110686.png';
     var altText = 'Image of Newark, N.J. in 1922. Source: The University of Texas at Austin, UT Libraries Map Collection.';
