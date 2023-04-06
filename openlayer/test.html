@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://openlayers.org/en/v6.5.0/css/ol.css" type="text/css">
+    <style>
+      #map {
+        height: 100%;
+        width: 100%;
+      }
+      .compass {
+        width: 48px;
+        height: 48px;
+        border: 2px solid black;
+        position: absolute;
+        left: 50%;
+        bottom: 50%;
+        margin-left: -25px;
+        margin-bottom: -25px;
+        z-index: 1000;
+        background-image: url('https://openlayers.org/en/v6.5.0/examples/data/compass.svg');
+        background-repeat: no-repeat;
+        background-size: 48px;
+        transform: rotate(0deg);
+        transition: transform 0.5s;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div class="compass"></div>
+    <script src="https://openlayers.org/en/v6.5.0/build/ol.js"></script>
+    <script>
+      const view = new ol.View({
+        center: [0, 0],
+        zoom: 2
+      });
+
+      const map = new ol.Map({
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        target: 'map',
+        view: view
+      });
+
+      const geolocation = new ol.Geolocation({
+        trackingOptions: {
+          enableHighAccuracy: true
+        },
+        projection: view.getProjection()
+      });
+
+      const compass = document.querySelector('.compass');
+
+      geolocation.on('change', function () {
+        const position = geolocation.getPosition();
+        view.setCenter(position);
+      });
+
+      geolocation.on('change:heading', function () {
+        const rotation = geolocation.getHeading() || 0;
+        compass.style.transform = `rotate(${rotation}rad)`;
+      });
+    </script>
+  </body>
+</html>
