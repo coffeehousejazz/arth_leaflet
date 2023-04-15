@@ -3,7 +3,7 @@ ARTH 411
 Aga Khan Garden
 
 # Explanation of important folders:
-## /openlayer
+## [a link](https://github.com/coffeehousejazz/arth_leaflet/tree/main/openlayerDOM/openlayer)
 - basic usage of a popup
 
 
