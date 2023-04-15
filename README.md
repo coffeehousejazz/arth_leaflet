@@ -2,7 +2,7 @@
 ARTH 411
 Aga Khan Garden
 
-# Explanation of important folders:
+## Explanation of important folders:
 ### [openlayer](https://github.com/coffeehousejazz/arth_leaflet/tree/main/openlayer)
 - basic usage of a popup
 
@@ -21,7 +21,7 @@ index.html is the main file. uses the ol-popup plugin for popups. the popups can
 
 index.html is the main file. uses the ol-popup plugin for popups. the popups can be customized based on which marker is clicked. this example shows how clicking on a marker can make a window popup on the entire page. Marker2 is an example of a popup window and Marker1 is an example of a normal popup + popup window with a button.
 
-### run
+## Run
 
 use local server or live extension on vscode for easy viewing.
 
