@@ -3,7 +3,7 @@ ARTH 411
 Aga Khan Garden
 
 # Explanation of important folders:
-## openlayer
+## /openlayer
 - basic usage of a popup
 
 
