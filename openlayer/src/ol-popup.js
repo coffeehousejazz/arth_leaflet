@@ -1,4 +1,10 @@
-import Overlay from 'ol/Overlay';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('ol/Overlay')) :
+	typeof define === 'function' && define.amd ? define(['ol/Overlay'], factory) :
+	(global.Popup = factory(global.ol.Overlay));
+}(this, (function (Overlay) { 'use strict';
+
+Overlay = 'default' in Overlay ? Overlay['default'] : Overlay;
 
 /**
 * OpenLayers Popup Overlay.
@@ -8,7 +14,7 @@ import Overlay from 'ol/Overlay';
 * @param {olx.OverlayOptions} opt_options options as defined by ol.Overlay. Defaults to
 * `{autoPan: true, autoPanAnimation: {duration: 250}}`
 */
-export default class Popup extends Overlay {
+class Popup extends Overlay {
 
     constructor(opt_options) {
 
@@ -128,3 +134,7 @@ export default class Popup extends Overlay {
 if (window.ol && window.ol.Overlay) {
     window.ol.Overlay.Popup = Popup;
 }
+
+return Popup;
+
+})));
