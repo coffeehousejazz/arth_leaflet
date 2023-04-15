@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Clickable Marker at Current Location Example</title>
+  <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
+  <style>
+    .map {
+      height: 400px;
+      width: 100%;
+    }
+    .popup {
+      padding: 15px;
+      background-color: white;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .popup-closer {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      cursor: pointer;
+    }
+  </style>
+  <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+</head>
+<body>
+<div id="map" class="map"></div>
+<div id="popup" class="ol-popup">
+  <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+  <div id="popup-content"></div>
+</div>
+<script>
+  // Create a map instance
+  var map = new ol.Map({
+    target: 'map',
+    layers: [
+      new ol.layer.Tile({
+        source: new ol.source.OSM()
+      })
+    ],
+    view: new ol.View({
+      center: ol.proj.fromLonLat([0, 0]),
+      zoom: 2
+    })
+  });
+
+  // Create a marker feature
+  var marker = new ol.Feature();
+
+  // Create a vector source to hold the marker
+  var vectorSource = new ol.source.Vector({
+    features: [marker]
+  });
+
+  // Create a vector layer with the vector source
+  var vectorLayer = new ol.layer.Vector({
+    source: vectorSource
+  });
+
+  map.addLayer(vectorLayer);
+
+  // Create a popup overlay
+  var popup = new ol.Overlay({
+    element: document.getElementById('popup'),
+    autoPan: true,
+    autoPanAnimation: {
+      duration: 250
+    }
+  });
+  map.addOverlay(popup);
+
+  // Update the marker's position with the user's current location
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var lon = position.coords.longitude;
+      var lat = position.coords.latitude;
+      var coordinates = ol.proj.fromLonLat([lon, lat]);
+      marker.setGeometry(new ol.geom.Point(coordinates));
+      // Add the marker to the vector source
+      vectorSource.addFeature(marker);
+    });
+  }
+
+  // Listen for click events on the map
+  map.on('click', function(event) {
+    map.forEachFeatureAtPixel(event.pixel, function(feature) {
+      if (feature === marker) {
+        var coordinates = feature.getGeometry().getCoordinates();
+        var lonLat = ol.proj.toLonLat(coordinates);
+        var content = 'Marker clicked at: ' + lonLat;
+        document.getElementById('popup-content').innerHTML = content;
+        popup.setPosition(coordinates);
+      }
+    });
+  });
+
+  // Close the popup when the close button is clicked
+  document.getElementById('popup-closer').addEventListener('click', function() {
+    popup.setPosition(undefined);
+  });
+</script>
+</body>
+</html>
